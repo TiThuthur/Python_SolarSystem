@@ -1,12 +1,13 @@
 # This is a sample Python script.
 import pygame
 import math
+import random
 
 # Press Maj+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 pygame.init()
 
-WIDTH, HEIGHT = 800, 900
+WIDTH, HEIGHT = 900, 1000
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Planet Simulation")
 
@@ -19,6 +20,8 @@ DARK_GREY = (80, 78, 81)
 BLACK = (0, 0, 0)
 
 FONT = pygame.font.SysFont("NotoSansMono Nerd", 16)
+
+new_planet_index = 0
 
 
 class Planet:
@@ -91,6 +94,9 @@ class Planet:
         self.y += self.y_vel * self.TIMESTEP
         self.orbit.append((self.x, self.y))
 
+def Onclick(new_planet_index):
+    mouse_x, mouse_y= pygame.mouse.get_position()
+    return Planet(mouse_x,mouse_y)
 
 def main():
     # Use a breakpoint in the code line below to debug your script.
