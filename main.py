@@ -15,6 +15,22 @@ DARK_GREY = (80, 78, 81)
 
 FONT = pygame.font.SysFont("NotoSansMono Nerd", 16)
 
+class Planet:
+
+    def __init__(self, x, y, radius, color, mass):
+        self.x=x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.mass = mass
+
+        self.orbit = []
+        self.sun = False
+        self.distance_to_sun = 0
+
+        self.x_vel = 0
+        self.y_vel = 0
+
 
 def main():
     # Use a breakpoint in the code line below to debug your script.
