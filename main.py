@@ -94,9 +94,29 @@ class Planet:
         self.y += self.y_vel * self.TIMESTEP
         self.orbit.append((self.x, self.y))
 
-def Onclick(new_planet_index):
-    mouse_x, mouse_y= pygame.mouse.get_position()
-    return Planet(mouse_x,mouse_y)
+
+def rise_a_value(mouseclick):
+    value = 0
+    while mouseclick:
+        value += 1
+    return value
+
+
+def get_hexa_color_generator():
+    random_number = random.randint(0, 16777215)
+    hexa_number = str(hex(random_number))
+    hexa_number = '#' + hexa_number[2:]
+    return hexa_number
+
+
+def create_planet_on_click():
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    return Planet(mouse_x,
+                  mouse_y,
+                  rise_a_value(pygame.mouse.get_pressed()),
+                  get_hexa_color_generator(),
+                  (rise_a_value(pygame.mouse.get_pressed()*rise_a_value(pygame.mouse.get_pressed()))))
+
 
 def main():
     # Use a breakpoint in the code line below to debug your script.
@@ -123,7 +143,8 @@ def main():
     while run:
         clock.tick(60)
         WIN.fill(BLACK)
-
+        if pygame.mouse.get_pressed():
+            planets.append(create_planet_on_click())
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
