@@ -5,6 +5,8 @@ import random
 
 # Press Maj+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
+
 pygame.init()
 
 WIDTH, HEIGHT = 900, 1000
@@ -95,27 +97,24 @@ class Planet:
         self.orbit.append((self.x, self.y))
 
 
-def rise_a_value(mouseclick):
-    value = 0
-    while mouseclick:
-        value += 1
-    return value
+# def rise_a_value(mouseclick):
+#   value = 0
+#    while value < 1000:
+#        value += 1
+#    return value
 
-
-def get_hexa_color_generator():
-    random_number = random.randint(0, 16777215)
-    hexa_number = str(hex(random_number))
-    hexa_number = '#' + hexa_number[2:]
-    return hexa_number
+def get_rgb_color_generator():
+    red = random.randint(0, 255)
+    green = random.randint(0, 255)
+    blue = random.randint(0, 255)
+    return red, green, blue
+#(get_rgb_color_generator())
 
 
 def create_planet_on_click():
-    mouse_x, mouse_y = pygame.mouse.get_pos()
-    return Planet(mouse_x,
-                  mouse_y,
-                  rise_a_value(pygame.mouse.get_pressed()),
-                  get_hexa_color_generator(),
-                  (rise_a_value(pygame.mouse.get_pressed()*rise_a_value(pygame.mouse.get_pressed()))))
+    mouse = pygame.mouse.get_pos()
+    planet=Planet(mouse[0] * Planet.AU, mouse[1], random.random(), BLUE , random.randint(1, 10) * 10 ** 23)
+    return planet
 
 
 def main():
@@ -143,8 +142,14 @@ def main():
     while run:
         clock.tick(60)
         WIN.fill(BLACK)
-        if pygame.mouse.get_pressed():
-            planets.append(create_planet_on_click())
+        click = pygame.mouse.get_pressed()
+        if click[0] == 1 is not None:
+            new_planet = create_planet_on_click()
+            print("Planet: ")
+            print(new_planet.__dict__.values())
+            new_planet.y_vel = random.randint(-35, 30) * 1000
+            planets.append(new_planet)
+            print(planets[1].__dict__.keys())
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
