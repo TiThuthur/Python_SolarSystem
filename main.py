@@ -33,6 +33,7 @@ class Planet:
     TIMESTEP = 3600 * 24  # 1day
 
     def __init__(self, x, y, radius, color, mass):
+
         self.x = x
         self.y = y
         self.radius = radius
@@ -108,20 +109,18 @@ def get_rgb_color_generator():
     green = random.randint(0, 255)
     blue = random.randint(0, 255)
     return red, green, blue
-#(get_rgb_color_generator())
 
 
-def create_planet_on_click():
-    mouse = pygame.mouse.get_pos()
-    planet=Planet(mouse[0] * Planet.AU, mouse[1], random.random(), BLUE , random.randint(1, 10) * 10 ** 23)
-    return planet
+def create_planet_on_click(mouse_pos):
+    return mouse_pos[0] * Planet.AU, mouse_pos[1], random.randint(1, 20), (get_rgb_color_generator()), random.randint(1,
+                                                                                                                      10) * 10 ** 23
 
 
 def main():
     # Use a breakpoint in the code line below to debug your script.
     run = True
     clock = pygame.time.Clock()
-
+    mouse = pygame.mouse.get_pos()
     sun = Planet(0, 0, 30, YELLOW, 1.98892 * 10 ** 30)
     sun.sun = True
 
@@ -138,18 +137,17 @@ def main():
     venus.y_vel = -35.02 * 1000
 
     planets = [sun, earth, mars, mercury, venus]
+    #planets = [earth, mars, mercury, venus]
 
     while run:
         clock.tick(60)
         WIN.fill(BLACK)
         click = pygame.mouse.get_pressed()
-        if click[0] == 1 is not None:
-            new_planet = create_planet_on_click()
-            print("Planet: ")
-            print(new_planet.__dict__.values())
+        if click[0] == 1 != None:
+            param_planet = create_planet_on_click(mouse)
+            new_planet = Planet(param_planet[0], param_planet[1], param_planet[2], param_planet[3], param_planet[4])
             new_planet.y_vel = random.randint(-35, 30) * 1000
             planets.append(new_planet)
-            print(planets[1].__dict__.keys())
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
